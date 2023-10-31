@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('website')->nullable()->unique();
+            $table->string('logo')->nullable();
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('job_id')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->rememberToken();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('job_id')->references('id')->on('jobs');
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('companies');
     }
 };
